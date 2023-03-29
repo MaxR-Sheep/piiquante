@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/user");
 
+mongoose
+  .connect(
+    "mongodb+srv://maxronjat:Bzdn5dA6FnFzA9Xt@maxsheep.zyaycrl.mongodb.net/?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => console.log("Connexion à MongoDB réussie !"))
+  .catch(() => console.log("Connexion à MongoDB échouée !"));
+
 const app = express();
 app.use(express.json());
 
