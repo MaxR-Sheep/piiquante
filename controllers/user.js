@@ -1,10 +1,11 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt"); // package de chiffrement pour sécurisé le mot de passe
 
 const User = require("../models/User");
 
 exports.signup = (req, res, next) => {
+  //fonction pour enregistrement utilisateur
   bcrypt
-    .hash(req.body.password, 10)
+    .hash(req.body.password, 10) // hachage pour sécurisé le mot de passe
     .then((hash) => {
       const user = new User({
         email: req.body.email,
@@ -18,4 +19,6 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {};
+exports.login = (req, res, next) => {
+  // fonction pour le login utilisateur
+};
