@@ -11,7 +11,7 @@ mongoose //configuration mongoDB Atlas
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
-//
+// Express au format Json
 const app = express();
 app.use(express.json());
 
