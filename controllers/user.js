@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt"); // package de chiffrement pour sécurisé le mot de passe
-
+const jsonWebToken = require("jsonwebtoken"); // un  token d'authentification pour permettre a l'utilisateur de se connecter une seule fois à son compte
 const User = require("../models/User");
 
 //fonction pour enregistrement utilisateur
@@ -46,12 +46,16 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jsonWebToken.sign({ userId: user._id }, userToken, {
-              expiresIn: "24h",
-            }),
+            token: jsonWebToken.sign(
+              { userId: user._id },
+              "RANDOM_TOKEN_SECRET",
+              {
+                expiresIn: "24h",
+              }
+            ),
           });
         })
         .catch((error) => res.status(500).json({ error }));
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => res.status(501).json({ error }));
 };
