@@ -1,13 +1,16 @@
 const express = require("express"); //framework Express pour simplifier serveur Node
 const mongoose = require("mongoose"); // utilisation mongoDB , NoSQL base de donnée
+const dotenv = require("dotenv"); // utilisation de la fonction dotenv pour sécuriser les éléments
+dotenv.config();
 
+// constante pour Mongodb qui est placé en .env (pour sécurisé)
+const mongoDB = process.env.MONGO;
+
+//Utilisations des routes de l'app
 const userRoutes = require("./routes/user");
 
 mongoose //configuration mongoDB Atlas
-  .connect(
-    "mongodb+srv://maxronjat:Bzdn5dA6FnFzA9Xt@maxsheep.zyaycrl.mongodb.net/?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
