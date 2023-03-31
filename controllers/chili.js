@@ -1,4 +1,5 @@
 const chiliSauce = require("../models/ChiliSauce");
+const fs = require("fs"); //fs pour le systeme des fichier pour modifier ou supprimer une sauce
 
 //fonction pour la création d'un sauce piquante
 exports.createSauce = (req, res, next) => {

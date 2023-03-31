@@ -2,12 +2,14 @@ const express = require("express"); //framework Express pour simplifier serveur 
 const mongoose = require("mongoose"); // utilisation mongoDB , NoSQL base de donnée
 const dotenv = require("dotenv"); // utilisation de la fonction dotenv pour sécuriser les éléments
 dotenv.config();
+const path = require("path");
 
 // constante pour Mongodb qui est placé en .env (pour sécurisé)
 const mongoDB = process.env.MONGO;
 
 //Utilisations des routes de l'app
 const userRoutes = require("./routes/user");
+const sauceChiliRoutes = require("./routes/chili");
 
 mongoose //configuration mongoDB Atlas
   .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -34,5 +36,7 @@ app.use((req, res, next) => {
 
 //Toutes les routes attendu par le frontend
 app.use("/api/auth", userRoutes);
+app.use("/api/sauces", sauceChiliRoutes);
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;
