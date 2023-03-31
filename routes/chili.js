@@ -6,6 +6,7 @@ const multer = require("../middleware/multer-config"); //pour les images apres l
 const ctrlChili = require("../controllers/chili");
 
 router.post("/", auth, multer, ctrlChili.createSauce); // route pour la création de sauce
-router.put("/", auth, multer, ctrlChili.modifySauce); // route pour la modification d'une sauce
+router.put("/:id", auth, multer, ctrlChili.modifySauce); // route pour la modification d'une sauce
+router.get("/", auth, ctrlChili.getAllSauces);
 
 module.exports = router;
