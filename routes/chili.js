@@ -5,4 +5,5 @@ const multer = require("../middleware/multer-config");
 
 const ctrlChili = require("../controllers/chili");
 
-router.get("/", auth, ctrlChili.createSauce);
+router.post("/", auth, multer, ctrlChili.createSauce); // route pour la création de sauce
+router.put("/", auth, multer, ctrlChili.modifySauce); // route pour la modification d'une sauce
