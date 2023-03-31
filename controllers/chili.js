@@ -55,3 +55,16 @@ exports.modifySauce = (req, res, next) => {
       res.status(400).json({ error });
     });
 };
+//fonction pour voir toute les sauces
+exports.getAllSauces = (req, res, next) => {
+  chiliSauce
+    .find()
+    .then((chiliSauce) => {
+      res.status(200).json(chiliSauce);
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
+};
