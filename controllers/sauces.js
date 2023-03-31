@@ -85,3 +85,27 @@ exports.getOneSauce = (req, res, next) => {
       });
     });
 };
+
+//fonction pour supprimer une sauce (pour l'utilisateur)
+exports.deleteSauce = (req, res, next) => {
+  chiliSauce
+    .findOne({ _id: req.params.id })
+    .then((chiliSauce) => {
+      if (chiliSauce.userId != req.auth.userId) {
+        res.status(401).json({ message: "Not authorized" });
+      } else {
+        const filename = chiliSauce.imageUrl.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
+          chiliSauce
+            .deleteOne({ _id: req.params.id })
+            .then(() => {
+              res.status(200).json({ message: "Objet supprimé !" });
+            })
+            .catch((error) => res.status(401).json({ error }));
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
