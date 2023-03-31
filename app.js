@@ -9,7 +9,7 @@ const mongoDB = process.env.MONGO;
 
 //Utilisations des routes de l'app
 const userRoutes = require("./routes/user");
-const sauceChiliRoutes = require("./routes/chili");
+const sauceChiliRoutes = require("./routes/sauces");
 
 mongoose //configuration mongoDB Atlas
   .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
