@@ -10,5 +10,6 @@ router.put("/:id", auth, multer, ctrlSauces.modifySauce); // route pour la modif
 router.get("/", auth, ctrlSauces.getAllSauces); //fonction pour voir toutes les sauces
 router.get("/:id", auth, ctrlSauces.getOneSauce); // fonction pour voir une sauce
 router.delete("/:id", auth, ctrlSauces.deleteSauce); // fonction pour qu'un utilisateur supprime sa sauce
+router.post("/:id/like", auth, ctrlSauces.likeSauce); // fonction pour likes dislikes une sauce
 
 module.exports = router;

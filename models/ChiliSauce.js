@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//Schéma pour les sauces piqauntes
+//Schéma pour les sauces piquantes
 const chiliSauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -12,7 +12,8 @@ const chiliSauceSchema = mongoose.Schema({
   likes: { type: Number, required: true, default: 0 },
   dislikes: { type: Number, required: true, default: 0 },
   usersLiked: { type: [String], require: true, default: 0 },
-  userDisliked: { type: [String], require: true, default: 0 },
+  usersDisliked: { type: [String], require: true, default: 0 },
 });
 
-module.exports = mongoose.model("ChiliSauce", chiliSauceSchema);
+const HotSauces = mongoose.model("ChiliSauce", chiliSauceSchema);
+module.exports = { HotSauces };
