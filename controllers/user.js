@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt"); // package de chiffrement pour sécurisé le m
 const jsonWebToken = require("jsonwebtoken"); // un  token d'authentification pour permettre a l'utilisateur de se connecter une seule fois à son compte
 const User = require("../models/User");
 
+const secret = process.env.JWT_SECRET;
+
 //fonction pour enregistrement utilisateur
 exports.signup = (req, res, next) => {
   User.findOne({ email: req.body.email }) // utilisation du findone par rapport à l'adresse mail car soucis avec unique validator
@@ -46,13 +48,9 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jsonWebToken.sign(
-              { userId: user._id },
-              "RANDOM_TOKEN_SECRET",
-              {
-                expiresIn: "24h",
-              }
-            ),
+            token: jsonWebToken.sign({ userId: user._id }, secret, {
+              expiresIn: "24h",
+            }),
           });
         })
         .catch((error) => res.status(500).json({ error }));
