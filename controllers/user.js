@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt"); // package de chiffrement pour sécurisé le mot de passe
 const jsonWebToken = require("jsonwebtoken"); // un  token d'authentification pour permettre a l'utilisateur de se connecter une seule fois à son compte
+const dotenv = require("dotenv");
+dotenv.config();
 const User = require("../models/User");
 
 const secret = process.env.JWT_SECRET;
