@@ -15,7 +15,7 @@ exports.createSauce = (req, res, next) => {
   sauce
     .save()
     .then(() => {
-      res.status(201).json({ message: "Sauce Hot enregistré !" });
+      res.status(201).json({ message: "Sauce Hot enregistrée !" });
     })
     .catch((error) => {
       res.status(400).json({ error });
@@ -43,7 +43,7 @@ exports.modifySauce = (req, res, next) => {
           { _id: req.params.id },
           { ...chiliSauceObject, _id: req.params.id }
         )
-          .then(() => res.status(200).json({ message: "Sauce modifié!" }))
+          .then(() => res.status(200).json({ message: "Sauce modifiée!" }))
           .catch((error) => res.status(401).json({ error }));
       }
     })
@@ -82,16 +82,18 @@ exports.getOneSauce = (req, res, next) => {
 //fonction pour supprimer une sauce (pour l'utilisateur)
 exports.deleteSauce = (req, res, next) => {
   const { id } = req.params;
+  // rechercher si un schémas avec id de la sauce existe
   HotSauces.findById(id)
     .then((chiliSauce) => {
       if (chiliSauce.userId != req.auth.userId) {
         res.status(401).json({ message: "Non authorisé" });
       } else {
-        const filename = chiliSauce.imageUrl.split("/images/")[1];
+        const filename = chiliSauce.imageUrl.split("/images/")[1]; // const pour mettre une liste ordonné dans un tableau
         fs.unlink(`images/${filename}`, () => {
+          //méthode pour supprimer dans le fichier local l'image associer à la sauce
           HotSauces.deleteOne({ _id: req.params.id })
             .then(() => {
-              res.status(200).json({ message: "Sauce supprimé !" });
+              res.status(200).json({ message: "Sauce supprimée !" });
             })
             .catch((error) => res.status(401).json({ error }));
         });
@@ -102,32 +104,35 @@ exports.deleteSauce = (req, res, next) => {
     });
 };
 
-//Likes/Dislikes une sauce
+// fonction pour Likes/Dislikes une sauce
 exports.likeSauce = (req, res, next) => {
-  const { id } = req.params;
-  HotSauces.findById(id).then((sauce) => {
+  const sauceId = req.params.id;
+  const userId = req.body.userId;
+  HotSauces.findById(sauceId).then((sauce) => {
+    // rechercher si un schémas avec id de la sauce existe
     switch (req.body.like) {
       case 1:
-        if (!sauce.usersLiked.includes(req.body.userId)) {
+        //vérifier si l'identifiant de l'utilisateur n'est pas dans le tableau des sauce like
+        if (!sauce.usersLiked.includes(userId)) {
           sauce.likes++;
-          sauce.usersLiked.push(req.body.userId);
+          sauce.usersLiked.push(userId); // on ajoute l'utilisateur au tableau
         }
         break;
       case 0:
-        if (sauce.usersLiked.includes(req.body.userId)) {
-          sauce.usersLiked.splice(sauce.usersLiked.indexOf(req.body.userId, 1));
+        //vérifie si l'identifiant de l'utilisateur est dans le tableau like
+        if (sauce.usersLiked.includes(userId)) {
+          sauce.usersLiked.splice(sauce.usersLiked.indexOf(userId, 1)); //modification du tableau
           sauce.likes--;
-        } else if (sauce.usersDisliked.includes(req.body.userId)) {
+          // vérifier si l'identification de l'utilisateur est dans le tableau dislike
+        } else if (sauce.usersDisliked.includes(userId)) {
           sauce.dislikes--;
-          sauce.usersDisliked.splice(
-            sauce.usersLiked.indexOf(req.body.userId, 1)
-          );
+          sauce.usersDisliked.splice(sauce.usersLiked.indexOf(userId, 1));
         }
         break;
-      case -1:
-        if (!sauce.usersDisliked.includes(req.body.userId)) {
+      case -1: //verifie si l'identifiant de l'utilisateur n'est pas dans le tableau des sauce dislike
+        if (!sauce.usersDisliked.includes(userId)) {
           sauce.dislikes++;
-          sauce.usersDisliked.push(req.body.userId);
+          sauce.usersDisliked.push(userId); // on ajoute l'id au tableau dislike
         }
         break;
       default:

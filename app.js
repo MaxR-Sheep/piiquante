@@ -20,7 +20,7 @@ mongoose //configuration mongoDB Atlas
 const app = express();
 app.use(express.json());
 
-//CORS= partage des ressources, permet de sécurisé les données entre 2 port differents(4200/3000)
+//CORS= partage des ressources, permet de sécurisé les données entre 2 adresses differents(4200/3000)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -28,6 +28,7 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
   res.setHeader(
+    //Tout les paramettres de Headers necessaire
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );

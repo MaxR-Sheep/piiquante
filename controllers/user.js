@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt"); // package de chiffrement pour sécurisé le mot de passe
-const jsonWebToken = require("jsonwebtoken"); // un  token d'authentification pour permettre a l'utilisateur de se connecter une seule fois à son compte
+const jsonWebToken = require("jsonwebtoken"); // un  token d'authentification pour permettre à l'utilisateur de se connecter une seule fois à son compte
 const dotenv = require("dotenv");
 dotenv.config();
 const User = require("../models/User");
@@ -51,7 +51,8 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user._id,
             token: jsonWebToken.sign({ userId: user._id }, secret, {
-              expiresIn: "24h",
+              //.sign permet de chiffrer un nouveau token
+              expiresIn: 5 * 60, //durée de validité du token
             }),
           });
         })
